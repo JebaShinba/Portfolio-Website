@@ -1,0 +1,41 @@
+name: CI/CD Pipeline for Portfolio Website
+
+on:
+  # Triggers the workflow on push or pull request events on the main branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js environment (optional if you're using any JavaScript build tools)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    # Step 3: Install dependencies (optional if you have a package.json file for JS libraries)
+    - name: Install Dependencies
+      run: npm install
+      # If there are no dependencies, you can skip this step or remove the package.json file
+
+    # Step 4: Run tests (Optional if you have any tests in your JavaScript code)
+    # Skipping for static HTML, CSS, and JS project without test cases
+
+    # Step 5: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
